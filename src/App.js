@@ -15,6 +15,8 @@ import ClientRegistration from "./components/ClientRegistration/ClientRegistrati
 import DeliveryChallanPage from "./components/DeliveryChallanPage/DeliveryChallanPage";
 import GRNPage from "./components/GRNPage/GRNPage";
 import InternalTransferPage from "./components/InternalTransferPage/InternalTransferPage";
+import ClientLocation from "./components/ClientLocation/ClientLocation";
+import ClientRoute from "./components/ClientRoute/ClientRoute";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -71,6 +73,18 @@ function App() {
             path="/client-registration"
             element={
               isLoggedIn ? <ClientRegistration /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/client-location"
+            element={
+              isLoggedIn ? <ClientLocation /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/client-route"
+            element={
+              isLoggedIn ? <ClientRoute /> : <Navigate to="/login" />
             }
           />
           <Route

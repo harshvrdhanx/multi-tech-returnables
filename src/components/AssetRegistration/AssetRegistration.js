@@ -1,34 +1,194 @@
-import React from 'react';
-import { TextField, Button, Container, Typography, MenuItem } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'; // Make sure to install @mui/x-date-pickers for date pickers.
-import HomeButton from '../HomeButton'; 
+import React, { useState, useEffect } from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  MenuItem,
+  Box,
+  Grid,
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"; // Make sure to install @mui/x-date-pickers for date pickers.
+import HomeButton from "../HomeButton";
+import { QRCodeCanvas } from "qrcode.react";
 
 const AssetRegistration = () => {
+  const [formData, setFormData] = useState({
+    assetId: "",
+    qrCode: "",
+    assetInceptionDate: null,
+    nextInspectionDate: null,
+    currentStatus: "",
+    currentClientCode: "",
+  });
+
+  const [isQRCodeReady, setIsQRCodeReady] = useState(false);
+
+  useEffect(() => {
+    if (formData.qrCode) {
+      setIsQRCodeReady(true);
+    }
+  }, [formData.qrCode]);
+
+  const handleInputChange = (field) => (e) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  };
+
+  const handleDateChange = (field) => (newValue) => {
+    setFormData({ ...formData, [field]: newValue });
+  };
+
+  const handleSubmit = () => {
+    console.log("Form Data:", formData);
+  };
+
+  const handleDownloadQRCode = () => {
+    const qrCodeCanvas = document.getElementById("qrCodeCanvas");
+    const pngUrl = qrCodeCanvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "qr_code.png";
+    downloadLink.click();
+  };
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
       <HomeButton />
-      <Typography variant="h5" gutterBottom>
-        Asset Registration
-      </Typography>
-      <TextField label="Asset ID" select fullWidth margin="normal">
-        <MenuItem value="ASSET001">ASSET001</MenuItem>
-        <MenuItem value="ASSET002">ASSET002</MenuItem>
-      </TextField>
-      <TextField label="QR Code" fullWidth margin="normal" />
-      <DatePicker label="Asset Creation Date" fullWidth margin="normal" />
-      <DatePicker label="Asset Inception Date" fullWidth margin="normal" />
-      <DatePicker label="Next Inspection Date" fullWidth margin="normal" />
-      <TextField label="Current Status" select fullWidth margin="normal">
-        <MenuItem value="Active">Active</MenuItem>
-        <MenuItem value="Inactive">Inactive</MenuItem>
-      </TextField>
-      <TextField label="Current Client Code" select fullWidth margin="normal">
-        <MenuItem value="CLIENT001">CLIENT001</MenuItem>
-        <MenuItem value="CLIENT002">CLIENT002</MenuItem>
-      </TextField>
-      <Button variant="contained" color="primary" fullWidth>
-        Submit
-      </Button>
+      <Grid container spacing={4}>
+        {/* Left Side: Form */}
+        <Grid item xs={12} md={6}>
+
+          <Typography variant="h5" gutterBottom>
+            Asset Registration
+          </Typography>
+
+          {/* Dropdown for Asset ID */}
+          {/* <TextField
+            label="Asset ID"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.assetId}
+            onChange={handleInputChange("assetId")}
+          >
+            <MenuItem value="ASSET001">ASSET001</MenuItem>
+            <MenuItem value="ASSET002">ASSET002</MenuItem>
+          </TextField> */}
+
+          <TextField
+            label="Asset ID"
+            fullWidth
+            margin="normal"
+            value={formData.assetId}
+            onChange={(e) =>
+              setFormData({ ...formData, assetId: e.target.value })
+            }
+          />
+
+          {/* QR Code Input */}
+
+          {/* Date Pickers */}
+          <Box display="flex" flexDirection="column" gap={2}>
+          
+          <TextField
+            label="QR Code"
+            fullWidth
+            margin="normal"
+            value={formData.qrCode}
+            onChange={(e) =>
+              setFormData({ ...formData, qrCode: e.target.value })
+            }
+          />
+          
+            <DatePicker
+              label="Asset Inception Date"
+              value={formData.assetInceptionDate}
+              onChange={handleDateChange("assetInceptionDate")}
+              renderInput={(params) => (
+                <TextField {...params} fullWidth margin="normal" />
+              )}
+            />
+            <DatePicker
+              label="Next Inspection Date"
+              value={formData.nextInspectionDate}
+              onChange={handleDateChange("nextInspectionDate")}
+              renderInput={(params) => (
+                <TextField {...params} fullWidth margin="normal" />
+              )}
+            />
+          </Box>
+
+          {/* Dropdown for Current Status */}
+          <TextField
+            label="Current Status"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.currentStatus}
+            onChange={handleInputChange("currentStatus")}
+          >
+            <MenuItem value="Active">Active</MenuItem>
+            <MenuItem value="Inactive">Inactive</MenuItem>
+          </TextField>
+
+          {/* Dropdown for Current Client Code */}
+          <TextField
+            label="Current Client Code"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.currentClientCode}
+            onChange={handleInputChange("currentClientCode")}
+          >
+            <MenuItem value="CLIENT001">CLIENT001</MenuItem>
+            <MenuItem value="CLIENT002">CLIENT002</MenuItem>
+          </TextField>
+
+          {/* Submit Button */}
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            Submit
+          </Button>
+        </Grid>
+
+        {/* Right Side: QR Code and Download */}
+        <Grid item xs={12} md={6}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+          >
+            {isQRCodeReady && (
+              <QRCodeCanvas
+                id="qrCodeCanvas"
+                value={formData.qrCode || "No QR Code Data"}
+                size={200}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="Q"
+                includeMargin={true}
+              />
+            )}
+
+            <Button
+              variant="outlined"
+              onClick={handleDownloadQRCode}
+              sx={{ mt: 2 }}
+            >
+              Download QR Code
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
