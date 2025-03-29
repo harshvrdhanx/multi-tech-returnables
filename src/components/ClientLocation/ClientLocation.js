@@ -32,7 +32,7 @@ const ClientLocation = () => {
         <Container maxWidth="sm" sx={{ mt: 4 }}>
           <HomeButton />
           <Typography variant="h5" gutterBottom>
-            Client Registration
+            Client Location
           </Typography>
     
           {/* Input fields for Client Registration */}

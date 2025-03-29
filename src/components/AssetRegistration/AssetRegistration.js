@@ -15,7 +15,7 @@ import { QRCodeCanvas } from "qrcode.react";
 const AssetRegistration = () => {
   const [formData, setFormData] = useState({
     assetId: "",
-    qrCode: "",
+    userType: "",
     assetInceptionDate: null,
     nextInspectionDate: null,
     currentStatus: "",
@@ -23,6 +23,10 @@ const AssetRegistration = () => {
   });
 
   const [isQRCodeReady, setIsQRCodeReady] = useState(false);
+
+  const clientCodes = ["Client1", "Client2"];
+  const assetStatuses = ["Active", "Inactive"];
+  const userType = ["New", "Old"];
 
   useEffect(() => {
     if (formData.qrCode) {
@@ -59,7 +63,6 @@ const AssetRegistration = () => {
       <Grid container spacing={4}>
         {/* Left Side: Form */}
         <Grid item xs={12} md={6}>
-
           <Typography variant="h5" gutterBottom>
             Asset Registration
           </Typography>
@@ -91,17 +94,23 @@ const AssetRegistration = () => {
 
           {/* Date Pickers */}
           <Box display="flex" flexDirection="column" gap={2}>
-          
-          <TextField
-            label="QR Code"
-            fullWidth
-            margin="normal"
-            value={formData.qrCode}
-            onChange={(e) =>
-              setFormData({ ...formData, qrCode: e.target.value })
-            }
-          />
-          
+            <TextField
+              label="User Type"
+              fullWidth
+              select
+              margin="normal"
+              value={formData.userType}
+              onChange={(e) =>
+                setFormData({ ...formData, userType: e.target.value })
+              }
+            >
+              {userType.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </TextField>
+
             <DatePicker
               label="Asset Inception Date"
               value={formData.assetInceptionDate}
@@ -129,8 +138,11 @@ const AssetRegistration = () => {
             value={formData.currentStatus}
             onChange={handleInputChange("currentStatus")}
           >
-            <MenuItem value="Active">Active</MenuItem>
-            <MenuItem value="Inactive">Inactive</MenuItem>
+            {assetStatuses.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
           </TextField>
 
           {/* Dropdown for Current Client Code */}
@@ -142,8 +154,11 @@ const AssetRegistration = () => {
             value={formData.currentClientCode}
             onChange={handleInputChange("currentClientCode")}
           >
-            <MenuItem value="CLIENT001">CLIENT001</MenuItem>
-            <MenuItem value="CLIENT002">CLIENT002</MenuItem>
+            {clientCodes.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
           </TextField>
 
           {/* Submit Button */}
