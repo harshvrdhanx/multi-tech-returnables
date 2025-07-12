@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   FormLabel,
   Checkbox,
+  MenuItem,
 } from "@mui/material";
 import StepProgress from "../shared/StepProgressBar/stepProgressBar";
 
@@ -35,11 +36,14 @@ const ClientRegistration = () => {
     locationCode: "",
     locationLatitude: "",
     locationLongitude: "",
-    updateDttm: "",
-    updateUserId: "",
-    versionStamp: "",
+    // updateDttm: "",
+    // updateUserId: "",
+    // versionStamp: "",
     clientId: "CF492N2",
   });
+  
+  const assetStatuses = ["Active", "Inactive"];
+  const isOem = ["oem", "eu"];
 
   const handleNext = () => {
     setPage(2);
@@ -202,59 +206,74 @@ const ClientRegistration = () => {
       ) : (
         <>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Client dttm *"
-                fullWidth
-                value={formData.clientDttm}
-                onChange={handleInputChange("clientDttm")}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
                 label="Create Users ID *"
                 fullWidth
                 value={formData.createUserId}
                 onChange={handleInputChange("createUserId")}
+                readOnly
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormLabel>Is Active</FormLabel>
-              <RadioGroup
-                row
-                value={formData.isActive}
-                onChange={handleInputChange("isActive")}
-              >
-                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="No" control={<Radio />} label="No" />
-              </RadioGroup>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                  label="Current Status"
+                  select
+                  fullWidth
+                  margin="normal"
+                  value={formData.currentStatus}
+                  onChange={handleInputChange("currentStatus")}
+                >
+                  {assetStatuses.map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
-            <TextField
+            {/* <TextField
                 label="is oem"
                 fullWidth
                 value={formData.isOem}
                 onChange={handleInputChange("isOem")}
-              />
+              /> */}
+                {/*  */}
+                <TextField
+                  label="is oem"
+                  select
+                  fullWidth
+                  margin="normal"
+                  value={formData.isOem}
+                  onChange={handleInputChange("isOem")}
+                >
+                  {isOem.map((type) => (
+                    <MenuItem key={type} value={type}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                {/*  */}
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
             <TextField
                 label="is tenant location"
                 fullWidth
                 value={formData.isTenantLocation}
                 onChange={handleInputChange("isTenantLocation")}
               />
-            </Grid>
+            </Grid> */}
             
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 label="Location Code"
                 fullWidth
                 value={formData.locationCode}
-                onChange={handleInputChange("locationCode")}
+                // onChange={handleInputChange("locationCode")}
+                readOnly
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 label="Location Latitude"
                 fullWidth
@@ -269,31 +288,31 @@ const ClientRegistration = () => {
                 value={formData.locationLongitude}
                 onChange={handleInputChange("locationLongitude")}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 label="Update dttm"
                 fullWidth
                 value={formData.updateDttm}
                 onChange={handleInputChange("updateDttm")}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 label="Update user ID"
                 fullWidth
                 value={formData.updateUserId}
                 onChange={handleInputChange("updateUserId")}
               />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 label="Version Stamp *"
                 fullWidth
                 value={formData.versionStamp}
                 onChange={handleInputChange("versionStamp")}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={6}>
               <TextField
                 label="Client ID"

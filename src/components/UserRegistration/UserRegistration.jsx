@@ -15,6 +15,8 @@ const UserRegistration = () => {
     active: "Y",
   });
 
+  const assetStatuses = ["Active", "Inactive"];
+
   const handleInputChange = (field) => (e) => {
     setFormData({ ...formData, [field]: e.target.value });
   };
@@ -111,7 +113,7 @@ const UserRegistration = () => {
         </Grid>
         <Grid item xs={6}>
           {/* Radio Buttons for Active Status */}
-          <Typography variant="body1" gutterBottom>
+          {/* <Typography variant="body1" gutterBottom>
             Active:
           </Typography>
           <RadioGroup
@@ -121,7 +123,21 @@ const UserRegistration = () => {
           >
             <FormControlLabel value="Y" control={<Radio />} label="Y" />
             <FormControlLabel value="N" control={<Radio />} label="N" />
-          </RadioGroup>
+          </RadioGroup> */}
+          <TextField
+            label="Active"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.active}
+            onChange={handleInputChange("active")}
+          >
+            {assetStatuses.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
       </Grid>
 

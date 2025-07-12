@@ -16,7 +16,7 @@ const AssetRegistration = () => {
   const [formData, setFormData] = useState({
     assetId: "",
     userType: "",
-    assetInceptionDate: null,
+    creationDate: null,
     nextInspectionDate: null,
     currentStatus: "",
     currentClientCode: "",
@@ -112,9 +112,9 @@ const AssetRegistration = () => {
             </TextField>
 
             <DatePicker
-              label="Asset Inception Date"
-              value={formData.assetInceptionDate}
-              onChange={handleDateChange("assetInceptionDate")}
+              label="Creation Date"
+              value={formData.creationDate}
+              onChange={handleDateChange("creationDate")}
               renderInput={(params) => (
                 <TextField {...params} fullWidth margin="normal" />
               )}

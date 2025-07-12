@@ -357,169 +357,189 @@ const GRNPage = () => {
         ) : (
           <Grid item xs={12}>
             {formData.sequences.map((sequence, index) => (
-              <Accordion
+              <Paper
                 key={index}
-                defaultExpanded={index === 0}
-                sx={{ mb: 2 }}
+                elevation={3}
+                sx={{
+                  padding: 2,
+                  marginBottom: 2,
+                  position: "relative",
+                  width: "100%",
+                  maxWidth: "1500px", // Increased width
+                  opacity: sequence.disabled ? 0.5 : 1,
+                  pointerEvents: "auto", // Always allow pointer events
+                }}
               >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography sx={{ marginBottom: "10px" }}>
-                    Sequence No {String(sequence.sequence_no).padStart(2, "0")}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Sequence No"
-                        value={sequence.sequence_no}
-                        disabled
-                        fullWidth
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Asset Code/ID"
-                        select
-                        fullWidth
-                        value={sequence.asset_code}
-                        onChange={handleInputChange("asset_code", index)}
+                <Button
+                  onClick={() => {
+                    const newSequences = formData.sequences.filter(
+                      (_, i) => i !== index
+                    );
+                    setFormData({ ...formData, sequences: newSequences });
+                  }}
+                  sx={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    minWidth: "auto",
+                    padding: 0,
+                  }}
+                >
+                  ✖
+                </Button>
+                <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                  Asset Id {String(sequence.sequence_no).padStart(2, "0")}
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Box sx={{ display: "flex", gap: 2 }}>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          borderColor: "green",
+                          color: "green",
+                        }}
+                        onClick={() => {
+                          const newSequences = [...formData.sequences];
+                          newSequences[index].disabled = false;
+                          setFormData({ ...formData, sequences: newSequences });
+                        }}
                       >
-                        {assetCodes.map((asset) => (
-                          <MenuItem key={asset} value={asset}>
-                            {asset}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TextField
-                        label="Asset Status"
-                        select
-                        fullWidth
-                        value={sequence.asset_status}
-                        onChange={handleInputChange("asset_status", index)}
+                        Enable
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          borderColor: "red",
+                          color: "red",
+                        }}
+                        onClick={() => {
+                          const newSequences = [...formData.sequences];
+                          newSequences[index].disabled = true;
+                          setFormData({ ...formData, sequences: newSequences });
+                        }}
                       >
-                        {assetStatuses.map((status) => (
-                          <MenuItem key={status} value={status}>
-                            {status}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Autocomplete
-                        multiple
-                        options={subcomponentOptions}
-                        value={sequence.subcomponents_attached}
-                        onChange={(event, newValue) =>
-                          handleSubcomponentChange(newValue, index)
-                        }
-                        renderInput={(params) => (
-                          <TextField {...params} label="Subcomponents" />
-                        )}
-                        fullWidth
-                      />
-                    </Grid>
-
-                    {sequence.subcomponents_attached.map((subcomponent) => (
-                      <Grid item xs={12} key={subcomponent}>
-                        <Box
-                          sx={{
-                            border: "1px solid #ccc",
-                            borderRadius: "8px",
-                            padding: "10px",
-                          }}
-                        >
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ fontWeight: "bold", marginBottom: 2 }}
-                          >
-                            {subcomponent}
-                          </Typography>
-
-                          <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={4}>
-                              <TextField
-                                label="Quality"
-                                type="number"
-                                size="small"
-                                value={
-                                  sequence.subcomponentDetails[subcomponent]
-                                    ?.quantity || ""
-                                }
-                                onChange={(e) =>
-                                  handleSubcomponentDetailChange(
-                                    index,
-                                    subcomponent,
-                                    "quantity",
-                                    e.target.value
-                                  )
-                                }
-                                fullWidth
-                              />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                              <TextField
-                                label="Unit"
-                                size="small"
-                                select
-                                value={
-                                  sequence.subcomponentDetails[subcomponent]
-                                    ?.unit || ""
-                                }
-                                onChange={(e) =>
-                                  handleSubcomponentDetailChange(
-                                    index,
-                                    subcomponent,
-                                    "unit",
-                                    e.target.value
-                                  )
-                                }
-                                fullWidth
-                              >
-                                {units.map((asset) => (
-                                  <MenuItem key={asset} value={asset}>
-                                    {asset}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                            </Grid>
-
-                            <Grid item xs={4}>
-                              <TextField
-                                label="Status"
-                                size="small"
-                                select
-                                value={
-                                  sequence.subcomponentDetails[subcomponent]
-                                    ?.status || ""
-                                }
-                                onChange={(e) =>
-                                  handleSubcomponentDetailChange(
-                                    index,
-                                    subcomponent,
-                                    "status",
-                                    e.target.value
-                                  )
-                                }
-                                fullWidth
-                              >
-                                {status.map((asset) => (
-                                  <MenuItem key={asset} value={asset}>
-                                    {asset}
-                                  </MenuItem>
-                                ))}
-                              </TextField>
-                            </Grid>
-                          </Grid>
-                        </Box>
-                      </Grid>
-                    ))}
+                        Disable
+                      </Button>
+                    </Box>
                   </Grid>
-                </AccordionDetails>
-              </Accordion>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="Sequence No"
+                      value={sequence.sequence_no}
+                      disabled
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="Asset Code/ID"
+                      select
+                      fullWidth
+                      value={sequence.asset_code}
+                      onChange={handleInputChange("asset_code", index)}
+                    >
+                      {assetCodes.map((asset) => (
+                        <MenuItem key={asset} value={asset}>
+                          {asset}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      label="Asset Status"
+                      select
+                      fullWidth
+                      value={sequence.asset_status}
+                      onChange={handleInputChange("asset_status", index)}
+                    >
+                      {assetStatuses.map((status) => (
+                        <MenuItem key={status} value={status}>
+                          {status}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      multiple
+                      options={subcomponentOptions}
+                      value={sequence.subcomponents_attached}
+                      onChange={(event, newValue) =>
+                        handleSubcomponentChange(newValue, index)
+                      }
+                      renderInput={(params) => (
+                        <TextField {...params} label="Subcomponents" />
+                      )}
+                      fullWidth
+                    />
+                  </Grid>
+
+                  {sequence.subcomponents_attached.map((subcomponent) => (
+                    <Grid item xs={12} key={subcomponent}>
+                      <Box
+                        sx={{
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          padding: "10px",
+                          width: "100%",
+                        }}
+                      >
+                        <Typography
+                          variant="subtitle1"
+                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                        >
+                          {subcomponent}
+                        </Typography>
+
+                        <Grid container spacing={2} alignItems="center">
+                          <Grid item xs={6}>
+                            <TextField
+                              label="Quality"
+                              type="number"
+                              size="small"
+                              value={
+                                sequence.subcomponentDetails[subcomponent]
+                                  ?.quantity || ""
+                              }
+                              onChange={(e) =>
+                                handleSubcomponentDetailChange(
+                                  index,
+                                  subcomponent,
+                                  "quantity",
+                                  e.target.value
+                                )
+                              }
+                              fullWidth
+                            />
+                          </Grid>
+
+                          <Grid item xs={6}>
+                            <TextField
+                              label="Unit"
+                              size="small"
+                              select
+                              disabled
+                              value={
+                                sequence.subcomponentDetails[subcomponent]?.unit ||
+                                ""
+                              }
+                              fullWidth
+                            >
+                              {units.map((asset) => (
+                                <MenuItem key={asset} value={asset}>
+                                  {asset}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Paper>
             ))}
 
             <Button
@@ -535,7 +555,6 @@ const GRNPage = () => {
               variant="contained"
               color="primary"
               type="submit"
-              onClick={handleSubmit}
               sx={{ marginTop: 2 }}
             >
               Submit

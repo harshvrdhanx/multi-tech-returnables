@@ -18,16 +18,16 @@ import HomeButton from "../HomeButton";
 const ClientRoute = () => {
   const [formData, setFormData] = useState({
     client_id: "",
-    create_dttm: "",
+    // create_dttm: "",
     create_users_id: "",
     expected_travel_time_days: 0,
     expected_travel_time_hours: 0,
     route_code: "",
     route_desc: "",
     route_seq_no: "",
-    update_dttm: "",
-    update_user_id: "",
-    version_stamp: "",
+    // update_dttm: "",
+    // update_user_id: "",
+    // version_stamp: "",
     client_loc_depot_id: "",
     client_loc_hub_id: "",
     is_active: "Yes",
@@ -62,14 +62,14 @@ const ClientRoute = () => {
             onChange={handleInputChange("client_id")}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             label="Create dttm *"
             fullWidth
             value={formData.create_dttm}
             onChange={handleInputChange("create_dttm")}
           />
-        </Grid>
+        </Grid> */}
 
         {/* Is Active */}
         <Grid item xs={12}>
@@ -174,32 +174,32 @@ const ClientRoute = () => {
             onChange={handleInputChange("route_seq_no")}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             label="Update dttm"
             fullWidth
             value={formData.update_dttm}
             onChange={handleInputChange("update_dttm")}
           />
-        </Grid>
+        </Grid> */}
 
         {/* Update User ID & Version Stamp */}
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             label="Update user ID"
             fullWidth
             value={formData.update_user_id}
             onChange={handleInputChange("update_user_id")}
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
+        </Grid> */}
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             label="Version Stamp *"
             fullWidth
             value={formData.version_stamp}
             onChange={handleInputChange("version_stamp")}
           />
-        </Grid>
+        </Grid> */}
 
         {/* Client Loc Depot & Hub ID */}
         <Grid item xs={12} sm={6}>

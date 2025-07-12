@@ -121,7 +121,7 @@ const ProjectForm = ({ clientNameList, projectData, setShowForms }) => (
           fullWidth
           onClick={() => setShowForms(true)}
         >
-          FORMS
+          Get Project Info
         </Button>
       </Grid>
     </Grid>
